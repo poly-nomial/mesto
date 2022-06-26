@@ -5,8 +5,12 @@ let userDesc = document.querySelector('.profile__user-description');
 let userNameForm = document.querySelector('.popup__input_user-name');
 let userDescForm = document.querySelector('.popup__input_user-desc');
 
-userNameForm.value = userName.textContent;
-userDescForm.value = userDesc. textContent;
+function resetForm () {
+    userNameForm.value = userName.textContent;
+    userDescForm.value = userDesc.textContent;
+}
+
+resetForm();
 
 /* Открытие попапа */
 const editButton = document.querySelector('.profile__edit-button');
@@ -23,6 +27,7 @@ const closeButton = document.querySelector('.popup__close-btn');
 
 function closePopup() {
     popup.classList.remove('popup_opened');
+    resetForm();
 }
 
 closeButton.addEventListener('click', closePopup);
