@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Лина Белитова">
+    <title>Место. Россия</title>
+    <link rel="stylesheet" href="pages/index.css">
+</head>
+<body class="page">
+    <header class="header">
+        <img class="logo" src="images/logo.svg" alt="Логотип Место.Россия">
+    </header>
+    <main class="main">
+        <section class="profile">
+            <div class="avatar"></div>
+            <div class="profile__info">
+                <h1 class="profile__user-name">Даша Путешественница</h1>
+                <button class="profile__edit-button button-decor"></button>
+                <p class="profile__user-description">Помогите Даше найти российский город</p>
+            </div>
+            <button href="#" class="add-button button-decor"></button>
+        </section>
+        <section class="places">
+            <article class="place">
+                <img class="place__pic" src="images/places/london.jpg" alt="Лондон">
+                <div class="place__desc">
+                    <h2 class="place__name">Лондон</h2>
+                    <button class="place__like button-decor"></button>
+                </div>
+            </article>
+            <article class="place">
+                <img class="place__pic" src="images/places/paris.jpg" alt="Париж">
+                <div class="place__desc">
+                    <h2 class="place__name">Париж</h2>
+                    <button class="place__like button-decor"></button>
+                </div>
+            </article>
+            <article class="place">
+                <img class="place__pic" src="images/places/prague.jpg" alt="Прага">
+                <div class="place__desc">
+                    <h2 class="place__name">Прага</h2>
+                    <button class="place__like button-decor"></button>
+                </div>
+            </article>
+            <article class="place">
+                <img class="place__pic" src="images/places/st-petersbutg.jpg" alt="Санкт-Петербург">
+                <div class="place__desc">
+                    <h2 class="place__name">Санкт-Петербург</h2>
+                    <button class="place__like button-decor"></button>
+                </div>
+            </article>
+            <article class="place">
+                <img class="place__pic" src="images/places/tokio.jpg" alt="Токио">
+                <div class="place__desc">
+                    <h2 class="place__name">Токио</h2>
+                    <button class="place__like button-decor"></button>
+                </div>
+            </article>
+            <article class="place">
+                <img class="place__pic" src="images/places/vancouver.jpg" alt="Ванкувер">
+                <div class="place__desc">
+                    <h2 class="place__name">Ванкувер</h2>
+                    <button class="place__like button-decor"></button>
+                </div>
+            </article>
+        </section>
+        <section class="popup">
+            <div class="popup__container">
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <input type="text" placeholder="Имя" class="popup__input popup__input_user-name">
+                <input type="text" placeholder="Описание" class="popup__input popup__input_user-desc">
+                <button class="popup__close-btn button-decor"></button>
+                <button class="popup__save-btn">Сохранить</button>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">© 2020 Mesto Russia</p>
+    </footer>
+    <script src="script/index.js"></script>
+</body>
+</html>
