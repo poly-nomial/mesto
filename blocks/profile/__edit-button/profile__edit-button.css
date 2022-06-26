@@ -5,6 +5,7 @@
     padding: 0;
     width: 24px;
     height: 24px;
+    align-self: center;
 }
 
 @media screen and (max-width: 900px) {
