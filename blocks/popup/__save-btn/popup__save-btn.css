@@ -3,6 +3,7 @@
     height: 50px;
     margin-left: 36px;
     margin-right: 36px;
+    margin-bottom: 37px;
     padding: 0;
     border: none;
     border-radius: 2px;
@@ -19,6 +20,7 @@
         height: 46px;
         margin-left: 22px;
         margin-right: 22px;
+        margin-bottom: 25px;
         font-size: 14px;
         line-height: calc(17 / 14);
     }

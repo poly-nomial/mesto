@@ -1,7 +1,9 @@
 .place__desc {
     margin: 0 auto;
+    padding-top: 21px;
+    padding-bottom: 27px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    width: 246px;
+    max-width: 246px;
 }

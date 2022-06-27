@@ -6,5 +6,10 @@
     background-repeat: no-repeat;
     background-position: center;
     margin-left: 22px;
-    align-self: center;
+    align-self: flex-end;
+    flex-basis: 22px;
+}
+
+.place__like:active {
+    background-image: url(../../../images/like-active.svg);
 }

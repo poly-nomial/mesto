@@ -1,7 +1,6 @@
 .profile {
     display: flex;
     align-items: center;
-    position: relative;
     width: 100%;
     max-width: 880px;
     margin: 0 auto;
@@ -15,5 +14,6 @@
         max-width: 282px;
         padding-left: 19px;
         padding-right: 19px;
+        padding-bottom: 36px;
     }
 }

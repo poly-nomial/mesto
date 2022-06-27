@@ -1,22 +1,18 @@
-/* Изменение плейсхолдеров формы */
+let form = document.querySelector('.popup__form');
+let userNameForm = form.querySelector('.popup__input_type_user-name');
+let userDescForm = form.querySelector('.popup__input_type_user-desc');
+
 let userName = document.querySelector('.profile__user-name');
 let userDesc = document.querySelector('.profile__user-description');
 
-let userNameForm = document.querySelector('.popup__input_user-name');
-let userDescForm = document.querySelector('.popup__input_user-desc');
-
-function resetForm () {
-    userNameForm.value = userName.textContent;
-    userDescForm.value = userDesc.textContent;
-}
-
-resetForm();
 
 /* Открытие попапа */
 const editButton = document.querySelector('.profile__edit-button');
 const popup = document.querySelector('.popup');
 
 function openPopup() {
+    userNameForm.value = userName.textContent;
+    userDescForm.value = userDesc.textContent;
     popup.classList.add('popup_opened');
 }
 
@@ -27,18 +23,17 @@ const closeButton = document.querySelector('.popup__close-btn');
 
 function closePopup() {
     popup.classList.remove('popup_opened');
-    resetForm();
 }
 
 closeButton.addEventListener('click', closePopup);
 
 /* Изменение профиля */
-let saveButton = document.querySelector('.popup__save-btn');
 
-function editProfile() {
-    userName.textContent = `${userNameForm.value}`;
-    userDesc.textContent = `${userDescForm.value}`;
+function editProfile(evt) {
+    evt.preventDefault();
+    userName.textContent = userNameForm.value;
+    userDesc.textContent = userDescForm.value;
     closePopup();
 }
 
-saveButton.addEventListener('click', editProfile);
+form.addEventListener('submit', editProfile);

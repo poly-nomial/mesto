@@ -8,8 +8,6 @@
     overflow: hidden;
     display: inline-block;
     width: 100%;
-    flex-basis: 0;
-    flex-grow: 1;
 }
 
 @media screen and (max-width: 900px) {
