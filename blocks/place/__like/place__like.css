@@ -6,8 +6,9 @@
     background-repeat: no-repeat;
     background-position: center;
     margin-left: 22px;
-    align-self: flex-end;
+    align-self: center;
     flex-basis: 22px;
+    flex-shrink: 0;
 }
 
 .place__like:active {
