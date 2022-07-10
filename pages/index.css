@@ -9,7 +9,7 @@
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__save-btn/popup__save-btn.css);
 @import url(../blocks/popup/__close-btn/popup__close-btn.css);
-@import url(../blocks/popup/__container/_photo/popup__container_photo.css);
+@import url(../blocks/popup/__container-photo/popup__container_photo.css);
 @import url(../blocks/popup/__photo/popup__photo.css);
 @import url(../blocks/popup/__photo-title/popup__photo-title.css);
 @import url(../blocks/button-decor/button-decor.css);
