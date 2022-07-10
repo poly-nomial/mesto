@@ -10,7 +10,3 @@
     flex-basis: 22px;
     flex-shrink: 0;
 }
-
-.place__like:active {
-    background-image: url(../../../images/like-active.svg);
-}
