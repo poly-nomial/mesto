@@ -3,4 +3,6 @@
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
+    display: flex;
+    flex-flow: column;
 }
