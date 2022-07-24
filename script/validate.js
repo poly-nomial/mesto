@@ -24,14 +24,14 @@ const toggleButtonState = (popupFormList, buttonElement) => {
 }
 
 const showErrorMessage = (popupFormElement, popupInputElement, errorMessage) => {
-    const errorElement = popupFormElement.querySelector(`.${popupInputElement.id}-error`);
+    const errorElement = popupFormElement.querySelector(`.popup__${popupInputElement.id}-error`);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(selectors.activeErrorClass);
     popupInputElement.classList.add(selectors.invalidInputClass);
 };
 
 const hideErrorMessage = (popupFormElement, popupInputElement) => {
-    const errorElement = popupFormElement.querySelector(`.${popupInputElement.id}-error`);
+    const errorElement = popupFormElement.querySelector(`.popup__${popupInputElement.id}-error`);
     errorElement.textContent = '';
     errorElement.classList.remove(selectors.activeErrorClass);
     popupInputElement.classList.remove(selectors.invalidInputClass);

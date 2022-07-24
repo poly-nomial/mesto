@@ -4,10 +4,10 @@ const popupList = Array.from(document.querySelectorAll('.popup'));
 
 const popupProfileForm = document.querySelector('[name=profile-form]');
 const popupAddPhotoForm = document.querySelector('[name=add-form]');
-const userNameForm = document.querySelector('.popup__input_type_user-name');
-const userDescForm = document.querySelector('.popup__input_type_user-desc');
-const placeNameForm = document.querySelector('.popup__input_type_place-name');
-const placeLinkForm = document.querySelector('.popup__input_type_place-link');
+const userNameInput = document.querySelector('.popup__input_type_user-name');
+const userDescInput = document.querySelector('.popup__input_type_user-desc');
+const placeNameInput = document.querySelector('.popup__input_type_place-name');
+const placeLinkInput = document.querySelector('.popup__input_type_place-link');
 
 const userName = document.querySelector('.profile__user-name');
 const userDesc = document.querySelector('.profile__user-description');
@@ -62,18 +62,20 @@ function openPopup(popup) {
 }
 
 function openProfilePopup() {
-    hideErrorMessage(popupEditProfile, userNameForm);
-    hideErrorMessage(popupEditProfile, userDescForm);
-    userNameForm.value = userName.textContent;
-    userDescForm.value = userDesc.textContent;
+    const saveButton = popupEditProfile.querySelector('.popup__save-btn');
+    userNameInput.value = userName.textContent;
+    userDescInput.value = userDesc.textContent;
+    hideErrorMessage(popupEditProfile, userNameInput);
+    hideErrorMessage(popupEditProfile, userDescInput);
+    toggleButtonState([userNameInput, userDescInput], saveButton);
     openPopup(popupEditProfile);
 };
 
 function openAddPopup(){
-    hideErrorMessage(popupAddPlace, placeNameForm);
-    hideErrorMessage(popupAddPlace, placeLinkForm);
-    placeNameForm.value = '';
-    placeLinkForm.value = '';
+    hideErrorMessage(popupAddPlace, placeNameInput);
+    hideErrorMessage(popupAddPlace, placeLinkInput);
+    placeNameInput.value = '';
+    placeLinkInput.value = '';
     openPopup(popupAddPlace);
 };
 
@@ -122,8 +124,8 @@ setPopupEventListeners(popupList);
 
 function editProfile(evt) {
     evt.preventDefault();
-    userName.textContent = userNameForm.value;
-    userDesc.textContent = userDescForm.value;
+    userName.textContent = userNameInput.value;
+    userDesc.textContent = userDescInput.value;
     closePopup(popupEditProfile);
 };
 
@@ -158,7 +160,7 @@ addInitialCards();
 
 function addPlace(evt) {
     evt.preventDefault();
-    renderCard(createCard(placeNameForm.value, placeLinkForm.value));
+    renderCard(createCard(placeNameInput.value, placeLinkInput.value));
     closePopup(popupAddPlace);
 }
 
