@@ -31,10 +31,16 @@
     <div class="popup popup_type_edit-profile">
         <div class="popup__container">
             <h2 class="popup__title">Редактировать профиль</h2>
-            <form class="popup__form" name="profile-form">
-                <input type="text" name="profile-form__user-name" placeholder="Имя" class="popup__input popup__input_type_user-name" required>
-                <input type="text" name="profile-form__user-desc" placeholder="Описание" class="popup__input popup__input_type_user-desc"> <!--Сюда required не добавляю на случай, если пользователь хочет быть без подписи-->
-                <button type="submit" class="popup__save-btn hover-opacity">Сохранить</button>
+            <form class="popup__form" name="profile-form" novalidate>
+                <div class="input-field">
+                    <input type="text" id="profile-form__user-name" placeholder="Имя" class="popup__input popup__input_type_user-name" minlength="2" maxlength="40" required>
+                    <span class="popup__input-error profile-form__user-name-error"></span>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="profile-form__user-desc" placeholder="Описание" class="popup__input popup__input_type_user-desc" minlength="2" maxlength="200" required>
+                <span class="popup__input-error profile-form__user-desc-error"></span>
+                </div>
+                <button type="submit" class="popup__save-btn hover-opacity" disabled>Сохранить</button>
             </form>
             <button type="button" aria-label="Закрыть окно" class="popup__close-btn button-decor hover-opacity"></button>
         </div>
@@ -42,10 +48,16 @@
     <div class="popup popup_type_add-place">
         <div class="popup__container">
             <h2 class="popup__title">Новое место</h2>
-            <form class="popup__form" name="add-form">
-                <input type="text" name="add-form__place-name" placeholder="Название" class="popup__input popup__input_type_place-name" required>
-                <input type="url" name="add-form__place-link" placeholder="Ссылка на картинку" class="popup__input popup__input_type_place-link" required> 
-                <button type="submit" class="popup__save-btn hover-opacity">Сохранить</button>
+            <form class="popup__form" name="add-form" novalidate>
+                <div class="input-field">
+                    <input type="text" id="add-form__place-name" placeholder="Название" class="popup__input popup__input_type_place-name" minlength="2" maxlength="30" required>
+                    <span class="popup__input-error add-form__place-name-error"></span>
+                </div>
+                <div class="input-field">
+                    <input type="url" id="add-form__place-link" placeholder="Ссылка на картинку" class="popup__input popup__input_type_place-link" required> 
+                    <span class="popup__input-error add-form__place-link-error"></span>
+                </div>   
+                <button type="submit" class="popup__save-btn hover-opacity" disabled>Сохранить</button>
             </form>
             <button type="button" aria-label="Закрыть окно" class="popup__close-btn button-decor hover-opacity"></button>
         </div>
@@ -68,5 +80,6 @@
         </article>
     </template>
     <script src="./script/index.js"></script>
+    <script src="./script/validate.js"></script>
 </body>
 </html>

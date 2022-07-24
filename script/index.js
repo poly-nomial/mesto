@@ -1,5 +1,7 @@
 const placeTemplate = document.querySelector('#place-template').content;
 
+const popupList = Array.from(document.querySelectorAll('.popup'));
+
 const popupProfileForm = document.querySelector('[name=profile-form]');
 const popupAddPhotoForm = document.querySelector('[name=add-form]');
 const userNameForm = document.querySelector('.popup__input_type_user-name');
@@ -15,10 +17,6 @@ const photoAddButton = document.querySelector('.profile__add-button');
 const popupAddPlace = document.querySelector('.popup_type_add-place');
 const popupEditProfile = document.querySelector('.popup_type_edit-profile');
 const popupPhotoView = document.querySelector('.popup_type_photo-view');
-
-const buttonCloseAddPlace = popupAddPlace.querySelector('.popup__close-btn');
-const buttonCloseEditProfile = popupEditProfile.querySelector('.popup__close-btn');
-const buttonClosePhotoView = popupPhotoView.querySelector('.popup__close-btn');
 
 const places = document.querySelector('.places');
 
@@ -64,12 +62,16 @@ function openPopup(popup) {
 }
 
 function openProfilePopup() {
+    hideErrorMessage(popupEditProfile, userNameForm);
+    hideErrorMessage(popupEditProfile, userDescForm);
     userNameForm.value = userName.textContent;
     userDescForm.value = userDesc.textContent;
     openPopup(popupEditProfile);
 };
 
 function openAddPopup(){
+    hideErrorMessage(popupAddPlace, placeNameForm);
+    hideErrorMessage(popupAddPlace, placeLinkForm);
     placeNameForm.value = '';
     placeLinkForm.value = '';
     openPopup(popupAddPlace);
@@ -92,9 +94,29 @@ function closePopup(popup) {
     popup.classList.remove('popup_opened');
 };
 
-buttonCloseEditProfile.addEventListener('click', () => closePopup(popupEditProfile));
-buttonCloseAddPlace.addEventListener('click', () => closePopup(popupAddPlace));
-buttonClosePhotoView.addEventListener('click', () => closePopup(popupPhotoView));
+const setPopupEventListeners = (popupList) => {
+    popupList.forEach((popup) => {
+        popup.addEventListener('click', function(evt) {
+            if ((evt.target.classList.contains('popup')) || (evt.target.classList.contains('popup__close-btn'))) {
+                closePopup(popup);
+            }
+        } );
+    })
+}
+
+const setDocumentEventListener = () => {
+    document.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Escape') {
+            popupList.forEach((popup) => {
+                closePopup(popup);
+            })
+        };
+    })
+};
+
+setDocumentEventListener();
+setPopupEventListeners(popupList);
+
 
 /* Изменение профиля */
 

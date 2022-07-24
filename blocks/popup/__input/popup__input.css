@@ -3,7 +3,7 @@
     height: 35px;
     margin-left: 36px;
     margin-top: 0;
-    margin-bottom: 22px;
+    margin-bottom: 5px;
     padding: 0;
     border: none;
     border-bottom: 1px solid;
@@ -12,18 +12,11 @@
     color: black;
     font-size: 14px;
     line-height: calc(17 / 14);
-}  
-.popup__input:last-of-type {
-    margin-bottom: 48px;
-}   
+}    
 
 @media screen and (max-width: 900px) {
     .popup__input {
         width: 238px;
         margin-left: 22px;
-    }
-
-    .popup__input:last-of-type {
-        margin-bottom: 37px;
     }
 }
