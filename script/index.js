@@ -18,6 +18,9 @@ const popupAddPlace = document.querySelector('.popup_type_add-place');
 const popupEditProfile = document.querySelector('.popup_type_edit-profile');
 const popupPhotoView = document.querySelector('.popup_type_photo-view');
 
+const profileSaveButton = popupEditProfile.querySelector('.popup__save-btn');
+const placeSaveButton = popupAddPlace.querySelector('.popup__save-btn');
+
 const places = document.querySelector('.places');
 
 const popupPhotoViewPhoto = document.querySelector('.popup__photo');
@@ -57,17 +60,23 @@ const initialCards = [
 
 /* Открытие попапов */
 
+function addDocumentListener(evt, popup) {
+    if (evt.key === 'Escape') {
+        closePopup(popup);
+    }
+}
+
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('keydown', (evt) => addDocumentListener(evt, popup));
 }
 
 function openProfilePopup() {
-    const saveButton = popupEditProfile.querySelector('.popup__save-btn');
     userNameInput.value = userName.textContent;
     userDescInput.value = userDesc.textContent;
     hideErrorMessage(popupEditProfile, userNameInput);
     hideErrorMessage(popupEditProfile, userDescInput);
-    toggleButtonState([userNameInput, userDescInput], saveButton);
+    toggleButtonState([userNameInput, userDescInput], profileSaveButton);
     openPopup(popupEditProfile);
 };
 
@@ -76,14 +85,15 @@ function openAddPopup(){
     hideErrorMessage(popupAddPlace, placeLinkInput);
     placeNameInput.value = '';
     placeLinkInput.value = '';
+    toggleButtonState([placeNameInput, placeLinkInput], placeSaveButton)
     openPopup(popupAddPlace);
 };
 
-function openPhotoPopup(evt) {
-    popupPhotoViewPhoto.setAttribute('src', evt.target.getAttribute('src'));
-    const photoTitleText = evt.target.parentElement.querySelector('.place__name').textContent;
-    popupPhotoViewPhoto.setAttribute('alt', photoTitleText);
-    popupPhotoViewTitle.textContent = photoTitleText;
+function openPhotoPopup(name, link) {
+    console.log(link);
+    popupPhotoViewPhoto.setAttribute('src', link);
+    popupPhotoViewPhoto.setAttribute('alt', name);
+    popupPhotoViewTitle.textContent = name;
     openPopup(popupPhotoView);
 };
 
@@ -92,8 +102,13 @@ photoAddButton.addEventListener('click', openAddPopup);
 
 /* Закрытие попапов */
 
+function removeDocumentListener(popup) {
+    document.removeEventListener('keydown', (evt) => addDocumentListener(evt, popup));
+}
+
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    removeDocumentListener(popup);
 };
 
 const setPopupEventListeners = (popupList) => {
@@ -106,17 +121,6 @@ const setPopupEventListeners = (popupList) => {
     })
 }
 
-const setDocumentEventListener = () => {
-    document.addEventListener('keydown', function (evt) {
-        if (evt.key === 'Escape') {
-            popupList.forEach((popup) => {
-                closePopup(popup);
-            })
-        };
-    })
-};
-
-setDocumentEventListener();
 setPopupEventListeners(popupList);
 
 
@@ -134,12 +138,14 @@ popupProfileForm.addEventListener('submit', editProfile);
 /* Добавление карточек */
 
 function createCard(name, link) {
+    console.log(name);
+    console.log(link);
     const placeElement = placeTemplate.querySelector('.place').cloneNode(true);
     const placePic = placeElement.querySelector('.place__pic');
     const placeName = placeElement.querySelector('.place__name');
     placeElement.querySelector('.place__like').addEventListener('click', toggleActiveLike);
     placeElement.querySelector('.place__delete-button').addEventListener('click', deleteCard);
-    placePic.addEventListener('click', openPhotoPopup);
+    placePic.addEventListener('click', () => openPhotoPopup(name, link));
 
     placePic.setAttribute('src', link);
     placePic.setAttribute('alt', name);
