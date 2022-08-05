@@ -26,6 +26,10 @@ const places = document.querySelector('.places');
 const popupPhotoViewPhoto = document.querySelector('.popup__photo');
 const popupPhotoViewTitle = document.querySelector('.popup__photo-title');
 
+let listener;
+
+
+
 const initialCards = [
     {
         name: 'Лондон',
@@ -67,8 +71,9 @@ function addDocumentListener(evt, popup) {
 }
 
 function openPopup(popup) {
+    listener = (evt) => addDocumentListener(evt, popup);
     popup.classList.add('popup_opened');
-    document.addEventListener('keydown', (evt) => addDocumentListener(evt, popup));
+    document.addEventListener('keydown', listener);
 }
 
 function openProfilePopup() {
@@ -103,7 +108,7 @@ photoAddButton.addEventListener('click', openAddPopup);
 /* Закрытие попапов */
 
 function removeDocumentListener(popup) {
-    document.removeEventListener('keydown', (evt) => addDocumentListener(evt, popup));
+    document.removeEventListener('keydown', listener);
 }
 
 function closePopup(popup) {
