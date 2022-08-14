@@ -1,34 +1,5 @@
-const placeTemplate = document.querySelector('#place-template').content;
-
-const popupList = Array.from(document.querySelectorAll('.popup'));
-
-const popupProfileForm = document.querySelector('[name=profile-form]');
-const popupAddPhotoForm = document.querySelector('[name=add-form]');
-const userNameInput = document.querySelector('.popup__input_type_user-name');
-const userDescInput = document.querySelector('.popup__input_type_user-desc');
-const placeNameInput = document.querySelector('.popup__input_type_place-name');
-const placeLinkInput = document.querySelector('.popup__input_type_place-link');
-
-const userName = document.querySelector('.profile__user-name');
-const userDesc = document.querySelector('.profile__user-description');
-
-const profileEditButton = document.querySelector('.profile__edit-button');
-const photoAddButton = document.querySelector('.profile__add-button');
-const popupAddPlace = document.querySelector('.popup_type_add-place');
-const popupEditProfile = document.querySelector('.popup_type_edit-profile');
-const popupPhotoView = document.querySelector('.popup_type_photo-view');
-
-const profileSaveButton = popupEditProfile.querySelector('.popup__save-btn');
-const placeSaveButton = popupAddPlace.querySelector('.popup__save-btn');
-
-const places = document.querySelector('.places');
-
-const popupPhotoViewPhoto = document.querySelector('.popup__photo');
-const popupPhotoViewTitle = document.querySelector('.popup__photo-title');
-
-let listener;
-
-
+import { Card } from "./card.js";
+import { formValidator } from "./formValidator.js"
 
 const initialCards = [
     {
@@ -62,6 +33,43 @@ const initialCards = [
     },
 ];
 
+const selectors = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    invalidInputClass: 'popup__input_invalid',
+    buttonSelector: '.popup__save-btn',
+    inactiveButtonClass:  'popup__save-btn_inactive',
+    activeErrorClass: 'popup__input-error_active'
+};
+
+const popupList = Array.from(document.querySelectorAll('.popup'));
+
+const popupProfileForm = document.querySelector('[name=profile-form]');
+const popupAddPhotoForm = document.querySelector('[name=add-form]');
+const userNameInput = document.querySelector('.popup__input_type_user-name');
+const userDescInput = document.querySelector('.popup__input_type_user-desc');
+const placeNameInput = document.querySelector('.popup__input_type_place-name');
+const placeLinkInput = document.querySelector('.popup__input_type_place-link');
+
+const userName = document.querySelector('.profile__user-name');
+const userDesc = document.querySelector('.profile__user-description');
+
+const profileEditButton = document.querySelector('.profile__edit-button');
+const photoAddButton = document.querySelector('.profile__add-button');
+
+const popupAddPlace = document.querySelector('.popup_type_add-place');
+const popupAddPlaceValidation = new formValidator(selectors, popupAddPlace.querySelector(selectors.formSelector));
+
+const popupEditProfile = document.querySelector('.popup_type_edit-profile');
+const popupEditProfileValidation = new formValidator(selectors, popupEditProfile.querySelector(selectors.formSelector));
+
+const popupPhotoView = document.querySelector('.popup_type_photo-view');
+
+const popupPhotoViewPhoto = document.querySelector('.popup__photo');
+const popupPhotoViewTitle = document.querySelector('.popup__photo-title');
+
+let listener;
+
 /* Открытие попапов */
 
 function addDocumentListener(evt, popup) {
@@ -79,23 +87,22 @@ function openPopup(popup) {
 function openProfilePopup() {
     userNameInput.value = userName.textContent;
     userDescInput.value = userDesc.textContent;
-    hideErrorMessage(popupEditProfile, userNameInput);
-    hideErrorMessage(popupEditProfile, userDescInput);
-    toggleButtonState([userNameInput, userDescInput], profileSaveButton);
+    popupEditProfileValidation.hideErrorMessage(userNameInput);
+    popupEditProfileValidation.hideErrorMessage(userDescInput);
+    popupEditProfileValidation.toggleButtonState();
     openPopup(popupEditProfile);
 };
 
 function openAddPopup(){
-    hideErrorMessage(popupAddPlace, placeNameInput);
-    hideErrorMessage(popupAddPlace, placeLinkInput);
+    popupAddPlaceValidation.hideErrorMessage(placeNameInput);
+    popupAddPlaceValidation.hideErrorMessage(placeLinkInput);
     placeNameInput.value = '';
     placeLinkInput.value = '';
-    toggleButtonState([placeNameInput, placeLinkInput], placeSaveButton)
+    popupAddPlaceValidation.toggleButtonState();
     openPopup(popupAddPlace);
 };
 
-function openPhotoPopup(name, link) {
-    console.log(link);
+const openPhotoPopup = (name, link) => {
     popupPhotoViewPhoto.setAttribute('src', link);
     popupPhotoViewPhoto.setAttribute('alt', name);
     popupPhotoViewTitle.textContent = name;
@@ -140,50 +147,25 @@ function editProfile(evt) {
 
 popupProfileForm.addEventListener('submit', editProfile);
 
-/* Добавление карточек */
+/**
+ * Добавление карточек
+ */
 
-function createCard(name, link) {
-    console.log(name);
-    console.log(link);
-    const placeElement = placeTemplate.querySelector('.place').cloneNode(true);
-    const placePic = placeElement.querySelector('.place__pic');
-    const placeName = placeElement.querySelector('.place__name');
-    placeElement.querySelector('.place__like').addEventListener('click', toggleActiveLike);
-    placeElement.querySelector('.place__delete-button').addEventListener('click', deleteCard);
-    placePic.addEventListener('click', () => openPhotoPopup(name, link));
-
-    placePic.setAttribute('src', link);
-    placePic.setAttribute('alt', name);
-    placeName.textContent = name;
-    return placeElement;
-}
-
-function renderCard(element) {
-    places.prepend(element);
-}
-
-
-function addInitialCards() {
-    initialCards.forEach(elem => renderCard(createCard(elem.name, elem.link)));
-};
-
-addInitialCards();
+initialCards.forEach(elem => {
+    new Card(elem, '#place-template', openPhotoPopup).addCard('.places');
+});
 
 function addPlace(evt) {
     evt.preventDefault();
-    renderCard(createCard(placeNameInput.value, placeLinkInput.value));
+    new Card({name: placeNameInput.value, link: placeLinkInput.value}, '#place-template', openPhotoPopup).addCard('.places');
     closePopup(popupAddPlace);
 }
 
 popupAddPhotoForm.addEventListener('submit', addPlace);
 
-/* Лайки 🐶*/
-function toggleActiveLike(evt) {
-    evt.target.classList.toggle('place__like_active');
-}
+/**
+ * Добавление валидации 
+ */
 
-/* Удаление карточки */
-function deleteCard(evt) {
-    const placeItem = evt.target.closest('.place');
-    placeItem.remove();
-};
+popupAddPlaceValidation.enableValidation();
+popupEditProfileValidation.enableValidation();
