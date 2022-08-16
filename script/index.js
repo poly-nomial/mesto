@@ -68,20 +68,17 @@ const popupPhotoView = document.querySelector('.popup_type_photo-view');
 const popupPhotoViewPhoto = document.querySelector('.popup__photo');
 const popupPhotoViewTitle = document.querySelector('.popup__photo-title');
 
-let listener;
-
 /* Открытие попапов */
 
-function addDocumentListener(evt, popup) {
+function handleEscPress(evt) {
     if (evt.key === 'Escape') {
-        closePopup(popup);
+        closePopup(document.querySelector('.popup_opened'));
     }
 }
 
 function openPopup(popup) {
-    listener = (evt) => addDocumentListener(evt, popup);
     popup.classList.add('popup_opened');
-    document.addEventListener('keydown', listener);
+    document.addEventListener('keydown', handleEscPress);
 }
 
 function openProfilePopup() {
@@ -114,13 +111,9 @@ photoAddButton.addEventListener('click', openAddPopup);
 
 /* Закрытие попапов */
 
-function removeDocumentListener(popup) {
-    document.removeEventListener('keydown', listener);
-}
-
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    removeDocumentListener(popup);
+    document.removeEventListener('keydown', handleEscPress);
 };
 
 const setPopupEventListeners = (popupList) => {
@@ -151,13 +144,17 @@ popupProfileForm.addEventListener('submit', editProfile);
  * Добавление карточек
  */
 
+function createCard(card, templateSelector, containerSelector, openPopupFunction) {
+    return new Card(card, templateSelector, containerSelector, openPopupFunction)
+}
+
 initialCards.forEach(elem => {
-    new Card(elem, '#place-template', openPhotoPopup).addCard('.places');
+    createCard(elem, '#place-template', '.places', openPhotoPopup).addCard();
 });
 
 function addPlace(evt) {
     evt.preventDefault();
-    new Card({name: placeNameInput.value, link: placeLinkInput.value}, '#place-template', openPhotoPopup).addCard('.places');
+    createCard({name: placeNameInput.value, link: placeLinkInput.value}, '#place-template', openPhotoPopup).addCard('.places');
     closePopup(popupAddPlace);
 }
 
