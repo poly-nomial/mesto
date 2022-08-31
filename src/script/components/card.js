@@ -1,9 +1,8 @@
 export class Card {
-    constructor(card, templateSelector, containerSelector, openPopupFunction) {
+    constructor(card, templateSelector, openPopupFunction) {
         this._name = card.name;
         this._link = card.link;
         this._templateSelector = templateSelector;
-        this._container = document.querySelector(containerSelector);
         this._openPopupFunction = openPopupFunction;
     }
 
@@ -18,6 +17,7 @@ export class Card {
 
     _deleteCard(evt) {
         evt.target.closest('.place').remove();
+        evt.target.closest('.place').innerHTML = '';
     }
     
     _setEventListeners() {
@@ -34,9 +34,5 @@ export class Card {
         this._element.querySelector('.place__name').textContent = this._name;
         this._setEventListeners();
         return this._element;
-    }
-
-    addCard() {
-        this._container.prepend(this._createCard());
     }
 }
