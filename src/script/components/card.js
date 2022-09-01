@@ -26,7 +26,7 @@ export class Card {
         this._placepic.addEventListener('click', () => this._openPopupFunction(this._name, this._link))
     }
 
-    _createCard() {
+    createCard() {
         this._element = this._getTemplate();
         this._placepic = this._element.querySelector('.place__pic');
         this._placepic.setAttribute('src', this._link);

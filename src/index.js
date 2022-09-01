@@ -27,6 +27,10 @@ const popupEditProfileValidation = new formValidator(selectors, document.querySe
 
 const userProfile = new UserInfo('.profile__user-name', '.profile__user-description');
 
+const cardSection = new Section({ items: initialCards, renderer: (item) => {
+    cardSection.addItem(createCard(item));
+}}, '.places');
+
 const photoViewPopup = new PopupWithImage('.popup_type_photo-view');
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     evt.preventDefault();
@@ -36,16 +40,15 @@ const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
 const newPlacePopup = new PopupWithForm('.popup_type_add-place', (evt) => {
     evt.preventDefault();
     const newPlaceInputs = newPlacePopup._getInputValues();
-    const addedCard = {
-        name: newPlaceInputs[0].value,
-        link: newPlaceInputs[1].value,
-    };
-    const newCard = new Section({items: addedCard, renderer: () => {
-        const card = new Card(addedCard, '#place-template', openPhotoPopup);
-        const cardElement = card._createCard();
-        newCard.addItem(cardElement);
-    }}, '.places');
-    newCard.renderItem();
+    const addedCard = [
+        {
+        name: newPlaceInputs[0],
+        link: newPlaceInputs[1],
+        }
+    ];
+    cardSection.items = addedCard;
+    cardSection.renderItems();
+    newPlacePopup.close();
 });
 
 // Установка слушателей
@@ -87,12 +90,9 @@ const openPhotoPopup = (photoName, photoLink) => {
 };
 
 // Добавление карточек
-initialCards.forEach(initialCard => {
-    const renderedInitialCard = new Section({ item: initialCard, renderer: (item) => {
-        const newCard = new Card(item, '#place-template', openPhotoPopup);
-        const cardElement = newCard._createCard();
-        renderedInitialCard.addItem(cardElement);
-    } }, '.places');
-
-    renderedInitialCard.renderItem();
-})
+function createCard(cardInfo) {
+    const newCard = new Card(cardInfo, '#place-template', openPhotoPopup);
+    const cardElement = newCard.createCard();
+    return cardElement;
+}
+cardSection.renderItems();

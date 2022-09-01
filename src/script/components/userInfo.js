@@ -5,7 +5,7 @@ export class UserInfo {
     };
 
     getUserInfo() {
-        let userInfo = {
+        const userInfo = {
             userName: this._userNameElement.textContent,
             userDescription: this._userDescriptionElement.textContent
         };
@@ -13,8 +13,8 @@ export class UserInfo {
         return userInfo;
     };
 
-    setUserInfo([userNameInput, userDescriptionInput]) {
-        this._userNameElement.textContent = userNameInput.value;
-        this._userDescriptionElement.textContent = userDescriptionInput.value;
+    setUserInfo([userName, userDescription]) {
+        this._userNameElement.textContent = userName;
+        this._userDescriptionElement.textContent = userDescription;
     }
 }

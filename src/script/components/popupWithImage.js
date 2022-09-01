@@ -11,7 +11,6 @@ export class PopupWithImage extends Popup {
         this._photoElement.setAttribute('src', photoLink);
         this._photoElement.setAttribute('alt', photoName);
         this._titleElement.textContent = photoName;
-        this._popup.classList.add('popup_opened');
-        document.addEventListener('keydown', this._handleEscClose.bind(this));
+        super.open();
     }
 }
