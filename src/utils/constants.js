@@ -1,9 +1,9 @@
-import londonImage from "../../images/places/london.jpg";
-import parisImage from "../../images/places/paris.jpg";
-import pragueImage from "../../images/places/prague.jpg";
-import stpetersburgImage from "../../images/places/st-petersbutg.jpg";
-import tokioImage from "../../images/places/tokio.jpg";
-import vancouverImage from "../../images/places/vancouver.jpg";
+import londonImage from "../images/places/london.jpg";
+import parisImage from "../images/places/paris.jpg";
+import pragueImage from "../images/places/prague.jpg";
+import stpetersburgImage from "../images/places/st-petersbutg.jpg";
+import tokioImage from "../images/places/tokio.jpg";
+import vancouverImage from "../images/places/vancouver.jpg";
 
 export const initialCards = [
     {

@@ -1,10 +1,10 @@
-import './pages/index.css';
-import { Card } from "./script/components/card.js";
-import { formValidator } from "./script/components/formValidator.js";
-import { PopupWithImage } from "./script/components/popupWithImage.js";
-import { PopupWithForm } from "./script/components/popupWithForm.js";
-import { UserInfo } from "./script/components/userInfo.js";
-import { Section } from "./script/components/section.js";
+import './index.css';
+import { Card } from "../components/card.js";
+import { formValidator } from "../components/formValidator.js";
+import { PopupWithImage } from "../components/popupWithImage.js";
+import { PopupWithForm } from "../components/popupWithForm.js";
+import { UserInfo } from "../components/userInfo.js";
+import { Section } from "../components/section.js";
 import {
     initialCards,
     selectors,
@@ -14,7 +14,7 @@ import {
     placeLinkInput,
     profileEditButton,
     photoAddButton
-} from "./script/utils/constants.js";
+} from "../utils/constants.js";
 
 
 
@@ -34,12 +34,12 @@ const cardSection = new Section({ items: initialCards, renderer: (item) => {
 const photoViewPopup = new PopupWithImage('.popup_type_photo-view');
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     evt.preventDefault();
-    userProfile.setUserInfo(profilePopup._getInputValues());
+    userProfile.setUserInfo(profilePopup.getInputValues());
     profilePopup.close();
 });
 const newPlacePopup = new PopupWithForm('.popup_type_add-place', (evt) => {
     evt.preventDefault();
-    const newPlaceInputs = newPlacePopup._getInputValues();
+    const newPlaceInputs = newPlacePopup.getInputValues();
     const addedCard = [
         {
         name: newPlaceInputs[0],
