@@ -2,6 +2,7 @@ export class Popup {
     constructor(popupSelector) {
         this._popup = document.querySelector(popupSelector);
         this._handleEscClose = this._handleEscClose.bind(this);
+        this.button = this._popup.querySelector('.popup__save-btn');
     };
 
     open() {

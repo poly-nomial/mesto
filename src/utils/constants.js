@@ -50,6 +50,10 @@ export const userNameInput = document.querySelector('.popup__input_type_user-nam
 export const userDescInput = document.querySelector('.popup__input_type_user-desc');
 export const placeNameInput = document.querySelector('.popup__input_type_place-name');
 export const placeLinkInput = document.querySelector('.popup__input_type_place-link');
+export const avatarLinkInput = document.querySelector('.popup__input_type_avatar-link');
 
 export const profileEditButton = document.querySelector('.profile__edit-button');
 export const photoAddButton = document.querySelector('.profile__add-button');
+export const avatarEditButton = document.querySelector('.avatar__edit-pic');
+
+export const token = "85ece6ec-ad42-4595-ab64-f4ab4791389f";

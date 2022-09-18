@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { SourceMapDevToolPlugin } = require('webpack');
 
 module.exports = {
   entry: {
@@ -42,12 +43,13 @@ module.exports = {
       },
     ]
   },
+  devtool: false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
-
+    new SourceMapDevToolPlugin({})
   ]
 }
