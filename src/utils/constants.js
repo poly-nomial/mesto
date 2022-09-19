@@ -1,41 +1,9 @@
-import londonImage from "../images/places/london.jpg";
-import parisImage from "../images/places/paris.jpg";
-import pragueImage from "../images/places/prague.jpg";
-import stpetersburgImage from "../images/places/st-petersbutg.jpg";
-import tokioImage from "../images/places/tokio.jpg";
-import vancouverImage from "../images/places/vancouver.jpg";
+import { FormValidator } from "../components/formValidator.js";
+import { PopupWithImage } from "../components/popupWithImage.js";
+import { PopupWithConfirmation } from "../components/popupWithConfirmation.js";
+import { UserInfo } from "../components/userInfo.js";
+import { Api } from "../components/api.js";
 
-export const initialCards = [
-    {
-        name: 'Лондон',
-        link: londonImage
-    },
-
-    {
-        name: 'Париж',
-        link: parisImage
-    },
-
-    {
-        name: 'Прага',
-        link: pragueImage
-    },
-
-    {
-        name: 'Санкт-Петербург',
-        link: stpetersburgImage
-    },
-
-    {
-        name: 'Токио',
-        link: tokioImage
-    },
-
-    {
-        name: 'Ванкувер',
-        link: vancouverImage
-    },
-];
 
 export const selectors = {
     formSelector: '.popup__form',
@@ -57,3 +25,23 @@ export const photoAddButton = document.querySelector('.profile__add-button');
 export const avatarEditButton = document.querySelector('.avatar__edit-pic');
 
 export const token = "85ece6ec-ad42-4595-ab64-f4ab4791389f";
+
+export const api = new Api({
+    baseUrl: 'https://nomoreparties.co/v1/',
+    headers: {
+        'authorization': token,
+        'Content-Type': 'application/json',
+    }
+})
+
+export const popupAddPlaceValidation = new FormValidator(selectors, document.querySelector('.popup_type_add-place').querySelector(selectors.formSelector));
+
+export const popupEditProfileValidation = new FormValidator(selectors, document.querySelector('.popup_type_edit-profile').querySelector(selectors.formSelector));
+
+export const popupNewAvatarValidation = new FormValidator(selectors, document.querySelector('.popup_type_change-avatar').querySelector(selectors.formSelector));
+
+export const userProfile = new UserInfo('.profile__user-name', '.profile__user-description', '.avatar');
+
+export const photoViewPopup = new PopupWithImage('.popup_type_photo-view');
+
+export const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation', () => {});

@@ -1,44 +1,23 @@
 import './index.css';
 import { Card } from "../components/card.js";
-import { formValidator } from "../components/formValidator.js";
-import { PopupWithImage } from "../components/popupWithImage.js";
 import { PopupWithForm } from "../components/popupWithForm.js";
-import { PopupWithConfirmation } from "../components/popupWithConfirmation.js";
-import { UserInfo } from "../components/userInfo.js";
 import { Section } from "../components/section.js";
-import { Api } from "../components/api.js";
 import {
-    selectors,
     userNameInput,
     userDescInput,
-    placeNameInput,
-    placeLinkInput,
-    avatarLinkInput,
     profileEditButton,
     photoAddButton,
     avatarEditButton,
-    token
-    
+    api,
+    popupAddPlaceValidation,
+    popupEditProfileValidation,
+    popupNewAvatarValidation,
+    userProfile,
+    photoViewPopup,
+    confirmationPopup,
 } from "../utils/constants.js";
 
-
-const api = new Api({
-    baseUrl: 'https://nomoreparties.co/v1/',
-    headers: {
-        'authorization': token,
-        'Content-Type': 'application/json',
-    }
-})
-
-const popupAddPlaceValidation = new formValidator(selectors, document.querySelector('.popup_type_add-place').querySelector(selectors.formSelector));
-
-const popupEditProfileValidation = new formValidator(selectors, document.querySelector('.popup_type_edit-profile').querySelector(selectors.formSelector));
-
-const popupNewAvatarValidation = new formValidator(selectors, document.querySelector('.popup_type_change-avatar').querySelector(selectors.formSelector));
-
-const userProfile = new UserInfo('.profile__user-name', '.profile__user-description', '.avatar');
-
-const photoViewPopup = new PopupWithImage('.popup_type_photo-view');
+const cardSection = new Section({ items: [], renderer: () => {} }, '.places');
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     evt.preventDefault();
@@ -46,11 +25,11 @@ const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     const inputValues = profilePopup.getInputValues();
     api.editUserInfo(inputValues)
         .then(data => {
-            userProfile.setUserInfo([data.name, data.about, data.avatar]);
-            renderLoading(false, profilePopup.button);
+            userProfile.setUserInfo([data.name, data.about, data.avatar, data._id]);
             profilePopup.close();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
+        .finally(() => renderLoading(false, profilePopup.button));
 });
 
 const newPlacePopup = new PopupWithForm('.popup_type_add-place', (evt) => {
@@ -60,15 +39,16 @@ const newPlacePopup = new PopupWithForm('.popup_type_add-place', (evt) => {
     const addedCard = {
         name: newPlaceInputs[0],
         link: newPlaceInputs[1],
-        };
+    };
     api.postNewCard(addedCard)
         .then(data => {
             cardSection.items = [data];
-            cardSection.renderItems();
-            renderLoading(false, newPlacePopup.button);
+            cardSection.renderer = 
+            cardSection.renderItems(); //addItem вызывается внутри рендерера
             newPlacePopup.close();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
+        .finally(() => renderLoading(false, newPlacePopup.button));
 });
 
 const newAvatarPopup = new PopupWithForm('.popup_type_change-avatar', (evt) => {
@@ -77,44 +57,41 @@ const newAvatarPopup = new PopupWithForm('.popup_type_change-avatar', (evt) => {
     const [newLink] = newAvatarPopup.getInputValues();
     api.updateAvatar(newLink)
         .then(data => {
-            userProfile.setUserInfo([data.name, data.about, data.avatar]);
-            renderLoading(false, newAvatarPopup.button);
+            userProfile.setUserInfo([data.name, data.about, data.avatar, data._id]);
             newAvatarPopup.close();
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
+        .finally(() => renderLoading(false, newAvatarPopup.button));
 })
 
-const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation', () => {});
 
-let cardSection;
+// Загрузка информации с сервера
 
-let userId;
-
-function setUserInfo() {
+function loadServerData() {
     api.getUserInfo()
         .then(data => {
-            userProfile.setUserInfo([data.name, data.about, data.avatar]);
-            userId = data._id;
+            userProfile.setUserInfo([data.name, data.about, data.avatar, data._id]);
         })
         .then(() => {
             api.getCardsFromServer()
             .then(data => {
-                cardSection = new Section({ items: data, renderer: (item) => {
+                data.reverse();
+                cardSection.items = data;
+                cardSection.renderer = (item) => {
                     cardSection.addItem(createCard(item));
-                }}, '.places');
+                }
                 cardSection.renderItems();
-    })
-    .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
         })
         .catch(err => console.log(err))
 }
 
-setUserInfo();
+loadServerData();
 
 
 
 // Установка слушателей
-
 photoViewPopup.setEventListeners();
 profilePopup.setEventListeners();
 newPlacePopup.setEventListeners();
@@ -126,27 +103,23 @@ avatarEditButton.addEventListener('click', openNewAvatarPopup);
 
 
 // Добавление валидации
-
- popupAddPlaceValidation.enableValidation();
- popupEditProfileValidation.enableValidation();
- popupNewAvatarValidation.enableValidation();
+popupAddPlaceValidation.enableValidation();
+popupEditProfileValidation.enableValidation();
+popupNewAvatarValidation.enableValidation();
 
 // Открытие попапов
-
 function openProfilePopup() {
-    let profileInfo = userProfile.getUserInfo();
+    const profileInfo = userProfile.getUserInfo();
     userNameInput.value = profileInfo.name;
     userDescInput.value = profileInfo.about;
-    popupEditProfileValidation.hideErrorMessage(userNameInput);
-    popupEditProfileValidation.hideErrorMessage(userDescInput);
+    popupEditProfileValidation.resetValidationErrors();
     popupEditProfileValidation.toggleButtonState();
     profilePopup.open();
     
 };
 
 function openNewPlacePopup(){
-    popupAddPlaceValidation.hideErrorMessage(placeNameInput);
-    popupAddPlaceValidation.hideErrorMessage(placeLinkInput);
+    popupAddPlaceValidation.resetValidationErrors();
     popupAddPlaceValidation.toggleButtonState();
     newPlacePopup.open();
 };
@@ -155,13 +128,13 @@ const openPhotoPopup = (photoName, photoLink) => {
     photoViewPopup.open(photoName, photoLink);
 };
 
-const openConfirmationPopup = (confirmedAction) => {
-    confirmationPopup.confirmedAction = confirmedAction;
+const openConfirmationPopup = (handleConfirm) => {
+    confirmationPopup.setNewConfirmedAction(handleConfirm);
     confirmationPopup.open();
 }
 
 function openNewAvatarPopup() {
-    popupNewAvatarValidation.hideErrorMessage(avatarLinkInput);
+    popupNewAvatarValidation.resetValidationErrors();
     popupNewAvatarValidation.toggleButtonState();
     newAvatarPopup.open();
 }
@@ -170,9 +143,16 @@ function openNewAvatarPopup() {
 
 // Добавление карточек
 function createCard(cardInfo) {
-    const newCard = new Card(cardInfo, '#place-template', openPhotoPopup, openConfirmationPopup, likeCard, dislikeCard);
-    const cardElement = newCard.createCard(userId);
+    const newCard = new Card(cardInfo, '#place-template', openPhotoPopup, openConfirmationPopup, deleteCard, updateLike, userProfile.userId);
+    const cardElement = newCard.createCard();
     return cardElement;
+}
+
+// Удаление карточек
+function deleteCard(Card) {
+    api.deleteCard(Card.cardId)
+        .then(() => Card.deleteCardFromDOM())
+        .catch((err) => console.log(err));
 }
 
 // Лайки
@@ -182,6 +162,24 @@ const likeCard = (cardId) => {
 
 const dislikeCard = (cardId) => {
     return api.dislikeCard(cardId);
+}
+
+const updateLike = (evt, Card) => {
+    if (evt.target.classList.contains('place__like_active')) {
+        dislikeCard(Card.cardId)
+        .then((data) => {
+            evt.target.classList.remove('place__like_active');
+            evt.target.nextElementSibling.textContent = data.likes.length;
+        })
+        .catch((err) => console.log(err));
+    } else {
+        likeCard(Card.cardId)
+        .then((data) => {
+            evt.target.classList.add('place__like_active');
+            evt.target.nextElementSibling.textContent = data.likes.length;
+        })
+        .catch((err) => console.log(err));
+    }
 }
 
 // Загрузка

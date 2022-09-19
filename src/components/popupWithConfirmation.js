@@ -1,18 +1,19 @@
 import { Popup } from "./popup.js";
 
 export class PopupWithConfirmation extends Popup {
-    constructor(popupSelector, confirmedAction) {
+    constructor(popupSelector, handleConfirmFunction) {
         super(popupSelector);
-        this.confirmedAction = confirmedAction;
+        this.handleConfirm = handleConfirmFunction;
         this._executeConfirmedAction = this.executeConfirmedAction.bind(this);
+        this.button = this._popup.querySelector('.popup__save-btn');
     }
 
     setNewConfirmedAction(action) {
-        this.confirmedAction = action;
+        this.handleConfirm = action;
     }
 
     executeConfirmedAction() {
-        this.confirmedAction();
+        this.handleConfirm();
         this.close();
     }
 

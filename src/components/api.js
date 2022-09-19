@@ -12,14 +12,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-            .then(res => {
-                if (res.ok) {
-                   return res.json();
-                } else {
-                    return Promise.reject(`Ошибка: ${res.status}`);
-                }
-                
-            })
+            .then(res => this._getResponseData(res));
     }
 
     getCardsFromServer() {
@@ -29,13 +22,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(`Ошибка: ${res.status}`)
-                }
-            })
+            .then(res => this._getResponseData(res));
     }
 
     editUserInfo([newUserName, newUserDescription]) {
@@ -50,13 +37,7 @@ export class Api {
                 about: newUserDescription
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(`Ошибка: ${res.status}`);
-                }
-            })
+            .then(res => this._getResponseData(res));
         }
 
     postNewCard(newCard) {
@@ -71,13 +52,18 @@ export class Api {
                 link: newCard.link
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(`Ошибка: ${res.status}`);
-                }
-            })
+            .then(res => this._getResponseData(res));
+    }
+
+    deleteCard(cardId) {
+        return fetch(`https://mesto.nomoreparties.co/v1/${this._cohort}/cards/${cardId}`, {
+            method: 'DELETE',
+            headers: {
+                'authorization': this._token,
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => this._getResponseData(res));
     }
 
     likeCard(cardId) {
@@ -88,13 +74,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        })
+            .then(res => this._getResponseData(res));
     }
 
     dislikeCard(cardId) {
@@ -105,13 +85,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        })
+            .then(res => this._getResponseData(res));
     }
 
     updateAvatar(newAvatarLink) {
@@ -125,12 +99,14 @@ export class Api {
                 avatar: newAvatarLink
             })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        })
+            .then(res => this._getResponseData(res));
+    }
+
+    _getResponseData(res) {
+        if (!res.ok) {
+            return Promise.reject(`Ошибка: ${res.status}`);
+        } else {
+            return res.json()
+        }
     }
 }

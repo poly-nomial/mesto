@@ -9,14 +9,16 @@ export class UserInfo {
         const userInfo = {
             name: this._userNameElement.textContent,
             about: this._userDescriptionElement.textContent,
+            avatar: this._userAvatarElement.style['background-image']
         };
 
         return userInfo;
     };
 
-    setUserInfo([userName, userDescription, userAvatarLink]) {
+    setUserInfo([userName, userDescription, userAvatarLink, userId]) {
         this._userNameElement.textContent = userName;
         this._userDescriptionElement.textContent = userDescription;
         this._userAvatarElement.style[`background-image`] = `url(${userAvatarLink})`;
-    }
+        this.userId = userId;
+    };
 }
