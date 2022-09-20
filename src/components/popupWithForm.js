@@ -1,4 +1,4 @@
-import { Popup } from "./popup.js";
+import { Popup } from "./Popup.js";
 
 export class PopupWithForm extends Popup {
     constructor(popupSelector, submitFunction) {
@@ -26,4 +26,8 @@ export class PopupWithForm extends Popup {
         super.close();
         this._popupForm.reset();
     };
+
+    renderLoading(isLoading) {
+        this.button.textContent = isLoading ? "Сохранение…" : "Сохранить";
+    }
 }

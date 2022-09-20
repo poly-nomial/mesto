@@ -10,14 +10,14 @@ export class FormValidator {
         this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     }
 
-    _hasInvalidInput(inputList) {
-        return inputList.some(elem => {
+    _hasInvalidInput() {
+        return this._inputList.some(elem => {
             return !elem.validity.valid;
         });
     }
 
     toggleButtonState() {
-        if(this._hasInvalidInput(this._inputList)) {
+        if(this._hasInvalidInput()) {
             this._buttonElement.classList.add(this._inactiveButtonClass);
             this._buttonElement.setAttribute('disabled', true);
         } else {

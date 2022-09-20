@@ -20,6 +20,7 @@ export class Card {
         this._openConfirmationPopup = openConfirmationPopupFunction;
         this._deleteCard = deleteCardFunction;
         this._updateLike = updateLikeFunction;
+        this.deleteCardFromDOM = this.deleteCardFromDOM.bind(this);
     }
 
     _getTemplate() {
@@ -27,14 +28,19 @@ export class Card {
         return cardElement;
     }
 
-    _toggleActiveLike(evt) {
+    _toggleLike(evt) {
         this._updateLike(evt, this);
+    }
+
+    setNewLikes(evt, likesArray) {
+        evt.target.classList.toggle('place__like_active');
+        evt.target.nextElementSibling.textContent = likesArray.length;
     }
     
     _setEventListeners() {
-        this._likeButton.addEventListener('click', (evt) => this._toggleActiveLike(evt));
+        this._likeButton.addEventListener('click', (evt) => this._toggleLike(evt));
         this._deleteButton.addEventListener('click', () => {
-            const action = () => this._deleteCard(this);
+            const action = () => {this._deleteCard(this)};
             this._openConfirmationPopup(action);
         });
         this._placePic.addEventListener('click', () => this._openImagePopup(this._name, this._link))
@@ -63,6 +69,6 @@ export class Card {
     }
 
     deleteCardFromDOM() {
-        document.getElementById(this.cardId).remove();
+        this._place.remove();
     }
 }

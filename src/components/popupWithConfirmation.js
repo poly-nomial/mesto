@@ -1,4 +1,4 @@
-import { Popup } from "./popup.js";
+import { Popup } from "./Popup.js";
 
 export class PopupWithConfirmation extends Popup {
     constructor(popupSelector, handleConfirmFunction) {
@@ -14,7 +14,6 @@ export class PopupWithConfirmation extends Popup {
 
     executeConfirmedAction() {
         this.handleConfirm();
-        this.close();
     }
 
     setEventListeners() {

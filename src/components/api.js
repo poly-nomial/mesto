@@ -12,7 +12,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-            .then(res => this._getResponseData(res));
+            .then((res => this._getResponseData(res)));
     }
 
     getCardsFromServer() {

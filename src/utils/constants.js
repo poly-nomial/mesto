@@ -1,8 +1,8 @@
-import { FormValidator } from "../components/formValidator.js";
-import { PopupWithImage } from "../components/popupWithImage.js";
-import { PopupWithConfirmation } from "../components/popupWithConfirmation.js";
-import { UserInfo } from "../components/userInfo.js";
-import { Api } from "../components/api.js";
+import { FormValidator } from "../components/FormValidator.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
+import { PopupWithConfirmation } from "../components/PopupWithConfirmation.js";
+import { UserInfo } from "../components/UserInfo.js";
+import { Api } from "../components/Api.js";
 
 
 export const selectors = {
@@ -45,3 +45,5 @@ export const userProfile = new UserInfo('.profile__user-name', '.profile__user-d
 export const photoViewPopup = new PopupWithImage('.popup_type_photo-view');
 
 export const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation', () => {});
+
+export const user = {};

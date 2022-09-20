@@ -15,10 +15,9 @@ export class UserInfo {
         return userInfo;
     };
 
-    setUserInfo([userName, userDescription, userAvatarLink, userId]) {
+    setUserInfo([userName, userDescription, userAvatarLink]) {
         this._userNameElement.textContent = userName;
         this._userDescriptionElement.textContent = userDescription;
         this._userAvatarElement.style[`background-image`] = `url(${userAvatarLink})`;
-        this.userId = userId;
     };
 }
