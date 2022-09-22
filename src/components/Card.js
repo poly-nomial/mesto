@@ -28,17 +28,17 @@ export class Card{
         return cardElement;
     }
 
-    _toggleLike(evt) {
-        this._updateLike(evt, this);
+    _toggleLike() {
+        this._updateLike(this);
     }
 
-    setNewLikes(evt, likesArray) {
-        evt.target.classList.toggle('place__like_active');
-        evt.target.nextElementSibling.textContent = likesArray.length;
+    setNewLikes(likesArray) {
+        this._likeButton.classList.toggle('place__like_active');
+        this._likeButton.nextElementSibling.textContent = likesArray.length;
     }
     
     _setEventListeners() {
-        this._likeButton.addEventListener('click', (evt) => this._toggleLike(evt));
+        this._likeButton.addEventListener('click', () => this._toggleLike());
         this._deleteButton.addEventListener('click', () => {
             const action = () => {this._deleteCard(this)};
             this._openConfirmationPopup(action);
@@ -70,5 +70,13 @@ export class Card{
 
     deleteCardFromDOM() {
         this._place.remove();
+    }
+
+    isLiked() {
+        if (this._likeButton.classList.contains('place__like_active')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

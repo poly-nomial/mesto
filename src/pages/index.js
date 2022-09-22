@@ -18,9 +18,9 @@ import {
     user
 } from "../utils/constants.js";
 
-const cardSection = new Section({ items: [], renderer: (item) => {
+const cardSection = new Section((item) => {
     cardSection.addItem(createCard(item));
-} }, '.places');
+}, '.places');
 
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', (evt) => {
     evt.preventDefault();
@@ -78,9 +78,7 @@ function loadServerData() {
             api.getCardsFromServer()
             .then(data => {
                 data.reverse();
-                cardSection._items = data;
-                cardSection._renderer = 
-                cardSection.renderItems();
+                cardSection.renderItems(data);
             })
             .catch(err => console.log(err));
         })
@@ -167,21 +165,18 @@ const dislikeCard = (cardId) => {
     return api.dislikeCard(cardId);
 }
 
-const updateLike = (evt, card) => {
-    if (evt.target.classList.contains('place__like_active')) {
+const updateLike = (card) => {
+    if (card.isLiked()) {
         dislikeCard(card.cardId)
         .then((data) => {
-            card.setNewLikes(evt, data.likes);
+            card.setNewLikes(data.likes);
         })
         .catch((err) => console.log(err));
     } else {
         likeCard(card.cardId)
         .then((data) => {
-            card.setNewLikes(evt, data.likes);
+            card.setNewLikes(data.likes);
         })
         .catch((err) => console.log(err));
     }
 }
-
-// Загрузка
-
